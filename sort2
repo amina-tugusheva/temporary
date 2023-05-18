@@ -1,0 +1,104 @@
+//дана матрица размерностью nxn, отсортировать диагонали матрицы, параллельные главной, по убыванию элементов методом выбора
+#include "fstream"
+#include "iostream"
+#include "iomanip"
+using namespace std;
+ifstream in("input.txt");
+ofstream out("output.txt");
+//сортировка одномерного массива методом выбора..........(по возрастаниюб а надо по убыванию!!!)
+void sort(int* a, int n)
+{
+	/*int temp;
+	int lowindex, lowkey, i, j;
+	for (i = 0; i < n - 1; i++)
+	{
+		lowindex = i;
+		lowkey = a[i];
+		for (j = i+ 1; j < n; j++)
+			if (a[j] < lowkey)
+			{
+				lowkey = a[j];
+				lowindex = j;
+			}
+		temp = a[i];
+		a[i] = a[lowindex];
+		a[lowindex] = temp;
+	}*/
+	// по убыванию
+	int max = 0, temp = 0;
+	for (int i = 0; i < n - 1; ++i)
+	{
+		max = i;
+		for (int j = i + 1; j < n; ++j)
+			if (a[max] < a[j])
+			{
+				max = j;
+			}
+		if (i != max)
+		{
+			temp = a[i];
+			a[i] = a[max];
+			a[max] = temp;
+		}
+	}
+}
+int main()
+{
+	int n, m, i, j;
+	int a[10][10];
+	// ввод данных с файла
+	in >> n >> m;
+	for (i = 0; i < n; i++)
+		for (j = 0; j < m; j++)
+			in >> a[i][j];
+	//сортируем диагонали массива параллельные главной 
+	//сортировка gлавной диагонали
+	int b[10];
+	/*for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < m; j++)
+		{
+			if (i == j)
+			{
+				b[i] = a[i][j];
+			}
+			
+		}
+		sort(b, n);
+		for (int j = 0; j < m; j++)
+		{
+			if (i == j)
+			{
+				a[i][j] = b[i];
+			}
+			
+		}
+	}*/
+	for (int i = 0; i < n; i++)
+	{
+		for (j = 0; j <= i; j++)
+		{
+			b[i] = a[i][j];
+		}
+		sort(b, n);
+		for (j = 0; j <= i; j++)
+		{
+			a[i][j] = b[i];
+		}
+	}
+	//сортировка диагоналей, ниже главной 
+	//сортировка диагоналей, выше главной 
+
+
+	//выводим обработанные данные в файл output.txt
+	out << n << '\t' << m << '\n';
+	for (i = 0; i < n; i++)
+	{
+		for (j = 0; j < m; j++)
+			out << setw(5) << a[i][j];
+		out << '\n';
+	}
+	in.close();
+	out.close();
+	return 0;
+}
