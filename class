@@ -1,0 +1,65 @@
+#include <iostream>
+#include <string>
+#include <math.h>
+using namespace std;
+class Money
+{
+private:
+	int nominal;//номинал купюры 
+	int amount; //количество купюр
+public:
+	
+	Money(int n, int a)
+	{
+		nominal = n;
+		amount = a;
+	}
+	void show()
+	{
+		cout << "nominal = " << nominal << endl << "amount = "<< amount << endl;
+	}
+	void dost()
+	{
+		int x;
+		cin >> x;
+		if (nominal * amount >= x)
+		{
+			cout << "Yes" << endl;
+		}
+		else
+		{
+			cout << "no" << endl;
+		}
+	}
+	void cvtny()
+	{
+		int y;
+		cin >> y;
+		int k = (nominal * amount) / y;
+		cout << k << endl;
+	}
+	//перегрузка операции ++
+	Money operator ++()
+	{
+		return Money(nominal, amount + 1);
+	}
+	//перегрузка операции --
+	Money operator --()
+	{
+		return Money(nominal, amount- 1);
+	}
+	Money operator+(int a)
+	{
+		return Money(nominal, amount + a);
+	}
+};
+int main()
+{
+	int a, b;
+	cin >> a >> b;
+	Money moneyA(a, b);
+	moneyA.show();
+	moneyA.dost();
+	moneyA.cvtny();
+	
+}
