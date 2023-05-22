@@ -1,0 +1,88 @@
+// создать список целых чисел. исключить элементы равные x
+
+#include<iostream>
+#include<fstream>
+using namespace std;
+class Stack
+{
+	struct Element
+	{
+		int inf;
+		Element* next;
+		Element(int x, Element* p) : inf(x), next(p) {}
+	};
+	Element* head; // указатель на вершину стека
+public:
+	Stack() : head(0) // конструктор стека
+	{}
+	bool Empty() // проверка стека на пустоту
+	{
+		return head == 0;
+	}
+	int Pop() // взять элемент из стека
+	{
+		if (Empty()) // если стек пуст, то ничего не делать
+		{
+			return 0;
+		}
+		// Иначе заполняем указатель на вершину стека
+		Element* r = head;
+		// запоминаем информацию из верхнего элемента
+		int i = r->inf;
+		// передвигаем указатель стека на следующий от вершины элемент
+		head = r->next;
+		delete r; // освобождаем память, на которую указывает r
+		return i; // возвращаем значение
+	}
+	void Push(int data) // добавить элемент в стек
+	{
+		head = new Element(data, head);
+	}
+	int Top()
+	{
+		if (Empty()) // если стек пуст, то возвращаем 0
+		{
+			return 0;
+		}
+		else // иначе возвращаем информацию из вершины стека
+		{
+			return head->inf;
+		}
+	}
+};
+int main()
+{
+	
+	Stack t, t1;
+	int i, X;
+	ifstream in("input.txt");
+	ofstream out("output.txt");
+	in >> X;
+	
+	while (in >> i)
+	{
+		t.Push(i);
+	}
+	in.close();
+	while (!t.Empty())
+	{
+		i = t.Pop();
+		t1.Push(i);
+		if (i == X) 
+		{
+			t1.Pop();
+		}
+		
+		
+	}
+	while (!t1.Empty())
+	{
+		out << t1.Pop() << ' ';
+	}
+	out.close();
+	return 0;
+	
+}
+//пример
+//5
+//12 3 4 5 6
