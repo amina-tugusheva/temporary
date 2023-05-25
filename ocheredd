@@ -1,0 +1,104 @@
+//exception.cpp
+#include "string"
+using namespace std;
+class QueueException
+{
+private:
+	string str;
+
+public:
+	QueueException(string massage) : str(massage) {}
+	string what()
+	{
+		return str;
+	}
+};
+//удалить элементы равные X
+#include <iostream>
+#include"exception.cpp"
+#include <fstream>
+#include <string>
+using namespace std;
+//#include "queue.cpp"
+template <class Item>
+class Queue
+{
+	struct Element
+	{
+		Item inf;
+		Element* next;
+		Element(Item x): inf(x),next(0) {}
+	};
+
+	Element* head, *tail; //указатель на начало и конец очереди
+public:
+	Queue() : head(0), tail(0){}
+	bool Empty() //возвращает true, если очередь пуста, иначе false
+	{
+		return head == 0;
+	}
+	Item Get()
+	{
+		if (Empty()) //усли очередь пуста, генерируем исключение 
+		{
+			throw QueueException(" QueueException: get - queue empty");
+		}
+		else // иначе извлекаем элемент из головы очереди
+		{
+			Element* t = head;
+			Item i = t->inf;
+			head = t->next;
+			if (head == NULL)
+			{
+				tail = NULL;
+			}
+			delete t;
+			return i;
+		}
+	}
+	void Put(Item dsts)
+	{
+		//устонавливаем вспомогательный указатель
+		//на последний элемент очереди
+		Element* t = tail;
+		//формируется новый элемент, на который будет указывать tail
+		tail = new Element(data);
+		//если до этого очередь была пуста, то новый элемент является и первым
+		//и последним, поэтому указатель head устанавливаем на этот элемент
+		if (!head)
+		{
+			head = tail;
+		}
+		else
+		{
+			t->next = tail; //иначе новый узел помещаем в конец очереди
+		}
+	}
+};
+
+int main()
+{
+	Queue<int> t;
+	int i, x;
+	ifstream in("input.txt");
+	ofstream out("output.txt");
+	in >> x;
+	while (in >> i)
+	{
+		if (i == x)
+		{
+			t.Get();
+		}
+		else
+		{
+			t.Put(i);
+		}
+	}
+	in.close();
+	while (!t.Empty())
+	{
+		out << t.Get() << " ";
+	}
+	out.close();
+	return 0;
+}
