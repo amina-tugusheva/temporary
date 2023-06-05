@@ -1,0 +1,136 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+
+ifstream in("input.txt");
+ofstream out("output.txt");
+
+class ListException {
+private:
+	string str;
+public:
+	ListException(string message) : str(message) {}
+	string what() {
+		return str;
+	}
+};
+
+template <class Item>
+class List {
+	struct Element {
+		Item inf; //инф-а об элементе
+		Element* next; //указатель на след э-т
+		Element(Item x) : inf(x), next(0) {}
+	};
+
+	Element* head; //голова
+	int size; //размер
+
+	//Возвращает указатель на эл-т по его индексу
+	Element* Find(int index) {
+		if ((index < 1) || (index > size))
+			return NULL;
+
+		else {
+			Element* cur = head;
+			for (int i = 1; i < index; i++)
+				cur = cur->next;
+			return cur;
+		}
+	}
+public:
+	List() : head(0), size(0) {}
+	~List() {
+		while (!Empty()) {
+			Remove(1);
+		}
+	}
+	bool Empty() { return head == 0; } //проверка пустоты
+	int GetLength() { return size; } //кол-во эл-тов
+
+	//возвращает значение эл-та по его индексу
+	Item Get(int index) {
+		if ((index < 1) || (index > size))
+			throw ListException("ListException: get - list error");
+
+		else {
+			Element* r = Find(index);
+			Item i = r->inf;
+			return i;
+		}
+	}
+
+	//вставляет э-т по индексу
+	void Insert(int index, Item data) {
+		if ((index < 1) || (index > size + 1)) {
+			throw ListException("ListException: get - list error");
+		}
+		else {
+			Element* newPtr = new Element(data);
+			size = GetLength() + 1;
+			if (index == 1) {
+				newPtr->next = head; //указатель нового э-та указывает на голову
+				head = newPtr; //голова - новый эл-т
+			}
+			else {
+				Element* prev = Find(index - 1);
+				newPtr->next = prev->next; //указатель нового э-та указывает на след э-т
+				prev->next = newPtr; //а указатель предыдущего э-та на новый
+			}
+		}
+	}
+
+	//удаляет эл-т по индексу
+	void Remove(int index) {
+		if ((index < 1) || (index > size)) {
+			throw ListException("ListException: get - list error");
+		}
+		else {
+			Element* cur;
+			size--;
+			if (index == 1) {
+				cur = head; //удалится первый э-т
+				head = head->next; //примет значение след э-та
+			}
+			else {
+				Element* prev = Find(index - 1);
+				cur = prev->next; // удаляется э-т
+				prev->next = cur->next; //указатель пред э-та указывает на след э-т после удаляемого
+			}
+			cur->next = NULL; //указатель удаляемого э-та устанавливается на NULL
+			delete cur; //удаление эл-та
+		}
+	}
+
+	//вывод
+	void Print() {
+		for (Element* cur = head; cur != NULL; cur = cur->next) {
+			out << cur->inf << ' ';
+		}
+		out << endl;
+	}
+};
+
+int main()
+{
+	List <int> l;
+	int i, x;
+	in >> x;
+	while (in >> i)  // пока считывается, то записываем в список
+	{
+		l.Insert(l.GetLength() + 1, i);
+	}
+	for (int j = 1; j <= l.GetLength(); j++)
+	{
+		int cur = l.Get(j); // извлечение значения эл-та
+		if (cur == x)   // если значение = x, то удаляем этот эл-т
+		{
+			l.Remove(j);
+		}
+	}
+	l.Print(); // вывод 
+	in.close();
+	out.close();
+	return 0;
+}
