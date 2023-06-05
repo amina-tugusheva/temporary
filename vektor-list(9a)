@@ -1,0 +1,32 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main() 
+{
+	vector<int> v; // Вектор
+	vector<int>::iterator iter; // Итератор для перебора эл-тов
+	int n, x; 
+	cout << "Size: "; 
+	cin >> n; // Кол-во эл-тов
+	
+	for (int i = 0; i < n; i++) 
+	{
+		cin >> x;
+		v.push_back(x); // Добавление эл-та в конец вектора
+	}
+	int X, y;
+	cout << "X = ";
+	cin >> X;
+	cout << "y = ";
+	cin >> y;
+	iter = v.begin(); // Возвращает итератор, указывающий на первый э-т
+	
+	v.insert(iter + (n/2), X);
+	v.insert(iter + (n / 2 + 2), y);
+	for (int i = 0; i < v.size(); i++)
+		cout << v[i] << " ";
+
+	return 0;
+}
