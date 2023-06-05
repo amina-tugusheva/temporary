@@ -1,0 +1,210 @@
+#include <iostream>
+#include <fstream>
+#include <string>
+using namespace std;
+ifstream in("input.txt");
+ofstream out("output.txt");
+class DoubleListException
+{
+private:
+	string str;
+public:
+	DoubleListException(string message) : str(message) {}
+	string what()
+	{
+		return str;
+	}
+};
+template <class Item> class DoubleLinkedList
+{
+	struct Element
+	{
+		Item inf; //инф-а об эл-те
+		Element* next; //указатель на след э-т
+		Element* prev; //указатель на пред э-т
+		Element(Item x) : inf(x), next(0), prev(0) {}
+	};
+	Element* head; //начало
+	Element* tail; //конец
+	int size; //размер
+
+	//Возвращает указатель на эл-т по его индексу
+	Element* Find(int index) {
+		if ((index < 1) || (index > size))
+		{
+			return NULL;
+		}
+		else
+		{
+			Element* cur = head;
+			for (int i = 1; i < index; i++)
+			{
+				cur = cur->next;
+			}
+			return cur;
+		}
+	}
+public:
+	DoubleLinkedList() : head(0), tail(0), size(0) {}
+	~DoubleLinkedList()
+	{
+		while (!Empty())
+		{
+			Remove(1);
+		}
+	}
+	bool Empty() { return head == 0; } //проверка на пустоты
+	int GetLength() { return size; } //кол-во эл-тов
+
+	//возвращает значение эл-та по его индексу
+	Item Get(int index)
+	{
+		if ((index < 1) || (index > size))
+			throw DoubleListException("ListException: get - double-linked list error");
+
+		else {
+			Element* r = Find(index);
+			Item i = r->inf;
+			return i;
+		}
+	}
+
+	//вставляет перед эл-том с заданным индексом
+	void InsertLeft(int index, Item data)
+	{
+		if ((index < 1) || (index > size + 1))
+			throw DoubleListException("ListException: get - double-linked list error");
+
+		else
+		{
+			Element* newPtr = new Element(data);
+			size = GetLength() + 1;
+			Element* cur = Find(index);
+			if (cur == NULL) //если список пуст
+			{
+				head = newPtr;
+				tail = newPtr;
+			}
+			else
+			{
+				newPtr->next = cur; //указатель на след эл-т
+				newPtr->prev = cur->prev; //указатель на пред эл-т
+				cur->prev = newPtr; //новый эл-т становится предыдущим
+				if (cur == head) //если найденный эл-т начало списка
+					head = newPtr; //то новый эл-т становится началом
+				else
+					newPtr->prev->next = newPtr;
+				//указатель на след эл-т предыдущего эл-та по отношению нового эл-та 
+				//равен новому э-ту
+			}
+		}
+	}
+
+	//вставляет после эл-та с заданным индексом
+	void InsertRight(int index, Item data)
+	{
+		if ((index < 1 && head != NULL) || (index > size + 1))
+			throw DoubleListException("ListException: get - double-linked list error");
+		else
+		{
+			Element* newPtr = new Element(data);
+			size = GetLength() + 1;
+			Element* cur = Find(index);
+			if (cur == NULL) //список пуст
+			{
+				head = newPtr;
+				tail = newPtr;
+			}
+			else
+			{
+				newPtr->next = cur->next; //указатель на след эл-т
+				newPtr->prev = cur; //указатель на пред эл-т
+				cur->next = newPtr; //новый эл-т след для найденного
+				if (cur == tail) //конец списка
+					tail = newPtr;
+				else
+					newPtr->next->prev = newPtr;
+				//указатель на предыдущий эл-т для след эл-та по отношению новому эл-та
+				//равен новому эл-ту
+
+			}
+		}
+	}
+	//удаляет эл-т
+	void Remove(int index)
+	{
+		if ((index < 1) || (index > size))
+			throw DoubleListException("ListException: get - double-linked list error");
+		else {
+			Element* cur = Find(index);
+			size--;
+			if (size == 0) //список состоит из 1 эл-та
+			{
+				head = NULL;
+				tail = NULL;
+			}
+			else if (cur == head) //если первый эл-т
+			{
+				head = head->next; //голова становится след э-том
+				head->prev = NULL; //указатель на предыдущий эл-т NULL
+			}
+			else if (cur == tail) //если последний эл-т
+			{
+				tail = tail->prev; //конец становится предыдущи эл-том
+				tail->next = NULL; //указатель на след эл-т становится NULL 
+			}
+			else //эл-т в середине
+			{
+				//указатель на след э-т эл-та, находящегося перед удаляемым
+				//становится указателем на след эл-т удаляемого
+				cur->prev->next = cur->next;
+				//указатель на пред эл-т элемента после удоляемого
+				//становится указателем на предыдущий эл-т удоляемого
+				cur->next->prev = cur->prev;
+			}
+			cur->next = NULL; //указатель на след эл-т найденного э-та становится NULL
+			cur->prev = NULL; //указатель на пред эл-т найденного э-та становится NULL
+			delete cur; //удаление самого значения найденного эл-та
+		}
+	}
+	//выводит слева направо
+	void PrintLeftToRight()
+	{
+		for (Element* cur = head; cur != NULL; cur = cur->next)
+		{
+			out << cur->inf << ' ';
+		}
+		out << endl;
+	}
+	//выводит справа налево
+	void PrintRightToLeft()
+	{
+		for (Element* cur = tail; cur != NULL; cur = cur->prev)
+		{
+			out << cur->inf << ' ';
+		}
+		out << endl;
+	}
+};
+int main()
+{
+	DoubleLinkedList <int> l;
+	int i, x;
+	in >> x;
+	while (in >> i)  // пока считывается, то записываем спарва в список 
+	{
+		l.InsertRight(l.GetLength(), i);
+	}
+	for (int j = 1; j <= l.GetLength(); j++)
+	{
+		int cur = l.Get(j); // извлечение значения эл-та
+		if (cur == x)   // если значение max, то удаляем этот эл-т 
+		{
+			l.Remove(j);  // удаление эл-та
+		}
+	}
+	l.PrintLeftToRight(); // вывод слева направо
+	in.close();
+	out.close();
+	return 0;
+}
