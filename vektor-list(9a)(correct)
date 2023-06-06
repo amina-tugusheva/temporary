@@ -1,0 +1,29 @@
+#include <iostream>
+#include <list>
+using namespace std;
+
+int main() 
+{
+	list<int> l; // Список
+	list<int>::iterator iter; // Итератор для перебора эл-тов
+	int n, x; cout << "Size: "; cin >> n; // Кол-во эл-тов
+
+	for (int i = 0; i < n; i++) {
+		cin >> x;
+		l.push_back(x); // Добавление эл-та в конец списка
+	}
+	int X, y;
+	cout << "X = ";
+	cin >> X;
+	cout << "y = ";
+	cin >> y;
+	iter = l.begin();
+	advance(iter, n / 2);
+	l.insert(iter, X);
+	advance(iter, 1);
+	l.insert(iter, y);
+	for (iter = l.begin(); iter != l.end(); iter++)
+		cout << *iter << " "; // * получает значение, на которое указывает итератор
+
+	return 0;
+}
