@@ -1,0 +1,22 @@
+#include <iostream>
+#include <map>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+ifstream in("input.txt");
+int main() {
+	map<string, vector<int>> occurrences;
+	string word;
+	int position = 1;
+	while (in >> word) 
+	{
+		occurrences[word].push_back(position);
+		position++;
+	}
+	for (const auto& [word, positions] : occurrences) 
+	{
+		cout << word << ":" << positions.front() << " " << positions.back() << endl;
+	}
+	return 0;
+}
