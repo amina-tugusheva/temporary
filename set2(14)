@@ -1,0 +1,44 @@
+#include <iostream>
+#include <string>
+#include <unordered_map>
+#include <set>
+
+using namespace std;
+
+void print_unique_letters(string str) {
+	unordered_map<char, int> letter_count;
+	set<char> unique_letters;
+
+	
+	for (char c : str) {
+		letter_count[c]++;
+	}
+
+	
+	for (auto it = letter_count.begin(); it != letter_count.end(); it++) {
+		if (it->second == 1) {
+			unique_letters.insert(it->first);
+		}
+	}
+
+	
+	for (char c : unique_letters) {
+		cout << c;
+	}
+	cout << endl;
+}
+
+int main() {
+	int n;
+	cin >> n;
+
+	for (int i = 0; i < n; i++) {
+		string str;
+		cin >> str;
+
+		print_unique_letters(str);
+	}
+
+	return 0;
+
+}
