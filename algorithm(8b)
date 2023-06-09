@@ -1,0 +1,31 @@
+#include <iostream>
+#include <vector>
+#include <algorithm>
+
+using namespace std;
+
+struct Point {
+	int x, y;
+};
+
+bool is_on_axis(const Point& p) {
+	return p.x == 0 || p.y == 0;
+}
+
+int count_points_on_axis(vector<Point>& points) {
+	return count_if(points.begin(), points.end(), is_on_axis);
+}
+
+int main() {
+	setlocale(LC_ALL, "ru");
+	vector<Point> points = { {0,0}, {0,1}, {2,-2}, {-3,3}, {4,5}, {6,-6} };
+
+	cout << "Количество точек на осях перед удалением: " << count_points_on_axis(points) << endl;
+
+	auto it = remove_if(points.begin(), points.end(), is_on_axis);
+	points.erase(it, points.end());
+
+	cout << "кол во точек, лежащих на осях координат: " << count_points_on_axis(points) << endl;
+
+	return 0;
+}
