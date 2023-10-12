@@ -1,0 +1,85 @@
+//VI.В массиве размером n×n, элементы которого – целые числа, произвести следующие действия:
+//Замечание.Для хранения массив n×n использовать двумерный или ступенчатый массив.Свой выбор обосновать.
+//   3. Вставить новую строку после всех строк, в которых нет ни одного четного элемента
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace practicum7_4
+{
+    class Program
+    {
+        
+        static void Print(int[][] a, int n, int m)
+        {
+            for (int i = 0; i < n; ++i, Console.WriteLine())
+            {
+                for (int j = 0; j < m; ++j)
+                {
+                    Console.Write("{0,5} ", a[i][j]);
+                }
+            }
+        }
+        static void Add(int[][] a, ref int n, int m, int k)
+        {
+            for (int i = n; i > k; i--) //выполняем сдвиг ссылок на строчки вниз
+            {
+                a[i] = a[i - 1];
+            }
+            ++n;
+            a[k] = new int[m]; //создаем новую строку
+            Console.WriteLine("Введите элементы новой строки");
+            for (int j = 0; j < m; j++)
+            {
+                Console.Write("a[{0}][{1}]=", k, j);
+                a[k][j] = int.Parse(Console.ReadLine());
+            }
+        }
+        
+        static void Main()
+        {
+            int n, m;
+            //int[][] a = Input(out n, out m);
+            Console.WriteLine("введите размерность массива");
+            Console.Write("n = ");
+            n = int.Parse(Console.ReadLine());
+            Console.Write("m = ");
+            m = int.Parse(Console.ReadLine());
+            int[][] a = new int[n + n][]; //выделяем память под массив с избытком
+            for (int i = 0; i < n; i++)
+            {
+                a[i] = new int[m];
+                for (int j = 0; j < m; j++)
+                {
+                    Console.Write("a[{0}][{1}]= ", i, j);
+                    a[i][j] = int.Parse(Console.ReadLine());
+                }
+            }
+            Console.WriteLine("Исходный массив:");
+            Print(a, n, m);
+            for (int i = 0; i < n; i++)
+            {
+                int k = 0;
+                for (int j = 0; j < m; j++)
+                {
+                    if (a[i][j] % 2 == 0)
+                    {
+                        k += 1;
+                    }
+                }
+                if (k == 0)
+                {
+                    Console.WriteLine("номер строки для добавления:");
+                    Console.WriteLine(i + 1);
+                    //Add(a,ref n, m, i+1);
+                    //break;
+                }
+                Console.WriteLine("k = " + k);
+            }
+            Console.WriteLine("Измененный массив:");
+            Print(a, n, m);
+        }
+    }
+}
