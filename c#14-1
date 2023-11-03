@@ -1,0 +1,70 @@
+//14-1-13
+//Решить задачу, используя структуру SPoint для хранения координат точки:
+//13–14. Найти такую точку, сумма расстояний от которой до остальных точек множества максимальна.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace ConsoleApp2
+{
+    struct SPoint
+    {
+        public int x, y;
+        public SPoint(int x, int y) // конструктор
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public void Show()
+        {
+            Console.WriteLine("({0},{1})", x, y);
+        }
+        /*public double distanset1t2(...)
+        {
+            int t1 = Math.Sqrt(x) + x1;
+            int t2 = Math.Sqrt(y) + y1;
+            return Math.Sqrt(t1 * t1 + t2 * t2);
+        }
+        public double Distance()
+        {
+            return Math.Sqrt(x * x + y * y); //удаленность от начала координат
+        }*/
+    }// конец описания структуры
+    class Program
+    {
+        static public SPoint[] Input()
+        {
+            using (StreamReader fileIn = new StreamReader(@"C:\Users\tugushevaai\Desktop\14.txt"))
+            {
+                int n = int.Parse(fileIn.ReadLine());
+                SPoint[] ar = new SPoint[n]; //описание массива структур
+                for (int i = 0; i < n; i++)
+                {
+                    string[] text = fileIn.ReadLine().Split(' ');
+                    ar[i] = new SPoint(int.Parse(text[0]), int.Parse(text[1])); //вызов конструктора структуры
+                }
+                return ar; //в качестве результата метод возвращает ссылку на массив структур
+            }
+        }
+        static void Print(SPoint[] array) //выводим данные на экран
+        {
+            foreach (SPoint item in array)
+            {
+                item.Show(); //обращается к методу экземпляра структуры
+            }
+        }
+        // ищем сумму расстояний точки от других точек
+        static void Sum(SPoint[] array)
+        {
+            SPoint temp;
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                for (int j )
+            }
+        }
+
+    }
+}
