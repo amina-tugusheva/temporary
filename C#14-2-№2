@@ -1,0 +1,97 @@
+//II.Решить задачу, разработав собственную структуру для хранения информации
+//Замечания:
+// Во всех задачах данного раздела подразумевается, что исходная информация хранится в
+//текстовом файле input.txt, каждая строка которого содержит полную информацию о некотором
+//объекте; результирующая информация должна быть записана в файл output.txt.
+// Для хранения данных внутри программы организовать массив структур.
+// Сортировку данных реализовать, реализуя метод CompareTo(T) стандартного интерфейса
+//IComparable<in T>.
+//3) На основе данных входного файла составить багажную ведомость камеры хранения,
+//включив следующие данные: ФИО пассажира, количество вещей, общий вес вещей.
+//Вывести в новый файл информацию о тех пассажирах, средний вес багажа которых
+//превышает заданный, отсортировав их по количеству вещей, сданных в камеру хранения.
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace practicum14_2_3
+{
+    struct SPoint : IComparable<SPoint>
+    {
+        public string name, sname, mname;
+        public int kv, m;
+        public SPoint(string name, string sname, string mname, int kv, int m)
+        {
+            this.name = name;
+            this.sname = sname;
+            this.mname = mname;
+            this.kv = kv;
+            this.m = m;
+        }
+        public void Show()
+        {
+            Console.WriteLine(name, sname, mname, kv, m);
+        }
+        public int M()
+        {
+            Console.Write("задайте вес багажа:");
+            int x = int.Parse(Console.ReadLine());
+            if (m > x)
+            {
+                return kv;
+            }
+        }
+        public int CompereTo(SPoint obj)
+        {
+            if (this.M() == obj.M())
+            {
+                return 0;
+            }
+            else
+            {
+                if (this.M() > obj.M())
+                {
+                    return 1;
+                }
+                else
+                {
+                    return -1;
+                }
+            }
+        }
+    }
+    class Program
+    {
+        static public SPoint[] Input() //читаем данные из файла
+        {
+            using (StreamReader fileIn = new StreamReader(@"C:\Users\PC\Desktop\f.txt"))
+            {
+                int n = int.Parse(fileIn.ReadLine());
+                SPoint[] ar = new SPoint[n];
+                for (int i = 0; i < n; i++)
+                {
+                    string[] text = fileIn.ReadLine().Split(' ');
+                    ar[i] = new SPoint(string.Parse(text[0]), string.(text[1]), string.Parse(text[2]), int.Parse(text[3]), int.Parse(text[4]));
+                }
+                return ar;
+            }
+        }
+        static void Print(SPoint[] array) //выводим данные на экран
+        {
+            foreach (SPoint item in array)
+            {
+                item.Show();
+            }
+        }
+        static void Main()
+        {
+            SPoint[] array = Input();
+            Array.Sort(array); //Вызов стандартной сортировки для класса Array
+            Console.WriteLine("Упорядоченные данные: ");
+            Print(array);
+        }
+    }
+}
