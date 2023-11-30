@@ -1,0 +1,95 @@
+//Использование структур данных.
+//Замечания.
+//1. Во всех задачах данного раздела подразумевается, что исходная информация хранится в
+//текстовом файле input.txt, каждая строка которого содержит полную информацию о некотором объекте; 
+//результирующая информация должна быть записана в файл output.txt.
+//2. Для хранения данных внутри программы организовать одномерный массив структур или любую
+//другую подходящую коллекцию структур.Выбор коллекции обосновать.
+//Задание 13. На основе данных входного файла составить инвентарную ведомость
+//игрушек, включив следующие данные: название игрушки, ее стоимость(в руб.), возрастные
+//границы детей, для которых предназначена игрушка.Вывести в новый файл информацию о
+//тех игрушках, которые предназначены для детей старше N лет, отсортировав их по стоимости.
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.IO;
+
+namespace practicum15_2_13
+{
+    struct Toys
+    {
+        public string name;
+        public int price;
+        public int ogr;
+        public Toys(string name, int price, int ogr)
+        {
+            this.name = name;
+            this.price = price;
+            this.ogr = ogr;
+        }
+        public void Show(StreamWriter fout) //метод
+        {
+            fout.WriteLine("{0} {1} {2}", name, price, ogr);
+        }
+    }
+    class Program
+    {
+        static public Toys[] Input() //читаем данные из файла
+        {
+            using (StreamReader fileIn = new StreamReader(@"C:\Users\PC\Desktop\p.txt"))
+            {
+                int n = int.Parse(fileIn.ReadLine());
+                //int n = System.IO.File.ReadAllLines(@"C:\Users\PC\Desktop\p.txt").Length;
+                Toys[] ar = new Toys[n];
+                for (int i = 0; i < n; i++)
+                {
+                    string[] text = fileIn.ReadLine().Split(' ');
+                    string name = text[0];
+
+                    ar[i] = new Toys(name, int.Parse(text[1]), int.Parse(text[2]));
+                }
+                return ar;
+            }
+        }
+        /*static void Print(List<Toys> ar) //выводим данные на экран
+        {
+            using (StreamWriter fout = new StreamWriter(@"C:\Users\PC\Desktop\po.txt"))
+            {
+                foreach (Toys item in ar)
+                {
+                    item.Show(fout);
+                }
+            }
+
+        }*/
+        static void Main()
+        {
+            using (StreamWriter fout = new StreamWriter(@"C:\Users\PC\Desktop\po.txt"))
+            {
+                Toys[] array = Input();
+
+                List<Toys> more = new List<Toys>();
+                int k = int.Parse(Console.ReadLine());
+                var toys = more.Where(n => n.ogr > k).OrderBy(n => n.price);
+                foreach (var x in toys)
+                {
+                    x.Show(fout);
+                }
+                /*for (int i = 0; i < array.Length; i++)
+                {
+                    if (array[i].ogr > k)
+                    {
+                        more.Add(array[i]);
+                    }
+                    more.Sort();
+                    Print(more);
+                }*/
+            }
+
+        }
+
+    }
+}
