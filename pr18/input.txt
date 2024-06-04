@@ -1,0 +1,4 @@
+3
+Free,Free App,Company A
+Trial,Trial App,Company B,,30
+Commercial,Commercial App,Company C,99.99,365

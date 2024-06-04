@@ -1,0 +1,7 @@
+C:\Users\PC\Desktop\C#\pr18\bin\Debug\pr18.exe.config
+C:\Users\PC\Desktop\C#\pr18\bin\Debug\pr18.exe
+C:\Users\PC\Desktop\C#\pr18\bin\Debug\pr18.pdb
+C:\Users\PC\Desktop\C#\pr18\obj\Debug\pr18.csprojAssemblyReference.cache
+C:\Users\PC\Desktop\C#\pr18\obj\Debug\pr18.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\C#\pr18\obj\Debug\pr18.exe
+C:\Users\PC\Desktop\C#\pr18\obj\Debug\pr18.pdb
