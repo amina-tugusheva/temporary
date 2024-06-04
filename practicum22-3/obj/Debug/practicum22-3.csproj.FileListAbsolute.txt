@@ -1,0 +1,7 @@
+C:\Users\PC\Desktop\C#\practicum22-3\bin\Debug\practicum22-3.exe.config
+C:\Users\PC\Desktop\C#\practicum22-3\bin\Debug\practicum22-3.exe
+C:\Users\PC\Desktop\C#\practicum22-3\bin\Debug\practicum22-3.pdb
+C:\Users\PC\Desktop\C#\practicum22-3\obj\Debug\practicum22-3.csprojAssemblyReference.cache
+C:\Users\PC\Desktop\C#\practicum22-3\obj\Debug\practicum22-3.csproj.CoreCompileInputs.cache
+C:\Users\PC\Desktop\C#\practicum22-3\obj\Debug\practicum22-3.exe
+C:\Users\PC\Desktop\C#\practicum22-3\obj\Debug\practicum22-3.pdb
